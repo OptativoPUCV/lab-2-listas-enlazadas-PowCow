@@ -61,7 +61,7 @@ void * prevList(List * list) {
     return list->current->data ;
 }
 
-void pushFront(List * list, void * data) { //tiene que colocar el dato al frente
+void pushFront(List * list, void * data) { 
     Node *nodito = createNode(data) ;
     nodito->next = list->head ;
     nodito->prev = NULL ;
@@ -79,6 +79,17 @@ void pushBack(List * list, void * data) {
 }
 
 void pushCurrent(List * list, void * data) {
+    Node * nodito = createNode(data) ;
+    if (list->current == NULL) return ;
+    nodito->prev = list->current ;
+    nodito->next = list->current->next ;
+
+    if (list->current->next != NULL)
+        list->current->next->prev = nodito ;
+    else    
+        list->tail = nodito ;
+    list->current->next = nodito ;
+    list->current = nodito ;
 }
 
 void * popFront(List * list) {
