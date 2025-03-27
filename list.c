@@ -73,7 +73,7 @@ void pushFront(List * list, void * data) {
     list->current = nodito ;
 }
 
-void pushBack(List * list, void * data) {
+void pushBack(List * list, void * data) { 
     list->current = list->tail;
     pushCurrent(list,data);
 }
@@ -103,7 +103,22 @@ void * popBack(List * list) {
 }
 
 void * popCurrent(List * list) {
-    return NULL;
+    if (list->current == NULL) return NULL ;
+    void *dato = list->current->data ;
+    if (list->current == list->head) {
+        list->head = list->current->next ;
+        if (list->head) list->head->prev = NULL ;
+    } else if (list->current == list->tail) {
+        list->tail = list->current->prev ;
+        if (list->tail) list->tail->next = NULL ;
+    } else {
+        list->current->prev->next = list->current->next ;
+        list->current->next->prev = list->current->prev ;
+    }
+    Node *aux = list->current ;
+    list->current = list->current->next ;
+    free(aux) ;
+    return dato ;
 }
 
 void cleanList(List * list) {
